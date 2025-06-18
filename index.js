@@ -16,20 +16,17 @@ fetch('questions.json')
   })
   .then(data => {
     const shuffledQuestions = shuffle(data);
-    questionsArea.innerHTML = ''; // очистить "загрузка..."
+    questionsArea.innerHTML = '';
 
     shuffledQuestions.forEach((q, idx) => {
-      // Создаём блок вопроса
       const questionBlock = document.createElement('div');
       questionBlock.className = 'question-block';
 
-      // Вопрос
       const questionText = document.createElement('div');
       questionText.className = 'question-text';
       questionText.textContent = `${idx + 1}. ${q.question}`;
       questionBlock.appendChild(questionText);
 
-      // Варианты ответов (без перемешивания)
       const ul = document.createElement('ul');
       ul.className = 'options';
       q.options.forEach(opt => {
@@ -38,23 +35,6 @@ fetch('questions.json')
         ul.appendChild(li);
       });
       questionBlock.appendChild(ul);
-
-      // Кнопка показать ответ
-      const btn = document.createElement('button');
-      btn.textContent = 'Показать ответ';
-      questionBlock.appendChild(btn);
-
-      // Блок для правильного ответа
-      const answerDiv = document.createElement('div');
-      answerDiv.className = 'answer';
-      answerDiv.style.display = 'none';
-      answerDiv.innerHTML = `Правильный ответ: <br> ${q.options[q.answer - 1]}`;
-      questionBlock.appendChild(answerDiv);
-
-      btn.addEventListener('click', () => {
-        answerDiv.style.display = 'block';
-        btn.disabled = true;
-      });
 
       questionsArea.appendChild(questionBlock);
     });
